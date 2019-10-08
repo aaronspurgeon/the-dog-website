@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useInput } from './hooks/useInput';
+import React from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import Axios from 'axios';
+import { useDogImages } from './hooks/fetchDogImages';
 import './App.css';
 
 
@@ -9,36 +8,29 @@ import './App.css';
 function App(props) {
 
   const [breed, setBreed] = useLocalStorage('breed', 'husky');
-  const [images, setImages] = useState([]);
+  const [count, setCount] = useLocalStorage('count', 1);
+  const [images, setImages] = useDogImages(breed, count);
 
-  useEffect(() => {
-    setImages([])
-    fetchDogImages()
-  }, [breed])
-
-  const handleChange = (e) => {
-    setBreed(e.target.value)
-  }
-
-  const fetchDogImages = () => {
-    Axios.get(`https://dog.ceo/api/breed/${breed}/images`)
-      .then(res => {
-        setImages(res.data.message)
-      })
-      .catch(err => {
-        console.log('Error: ', err)
-      })
-  }
+  
   return (
     <div>
       <h1>dog website</h1>
-      <select value={breed} onChange={handleChange}>
+      <select value={breed} onChange={e => setBreed(e.target.value)}>
         <option disabled>Select breed</option>
         <option value="husky">Husky</option>
         <option value="beagle">Beagle</option>
         <option value="corgi">Corgi</option>
         <option value="boxer">Boxer</option>
       </select>
+
+      <input 
+      type='number'
+      placeholder='Image Count'
+      value={count}
+      onChange={e => setCount(e.target.value)}
+      
+      />
+
       {images.map((item, index) => (
         <img src={item} key={index} alt="Dog" />
       ))}
