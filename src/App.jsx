@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import { useInput } from './hooks/useInput';
 import Axios from 'axios';
 import './App.css';
 
-function useInput(initialValue) {
-  const [value, setValue] = useState(initialValue);
 
-  return [value, setValue]
-}
 
 function App(props) {
 
