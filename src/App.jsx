@@ -2,9 +2,15 @@ import React, {useState, useEffect} from 'react';
 import Axios from 'axios';
 import './App.css';
 
+function useInput(initialValue) {
+  const [value, setValue] = useState(initialValue);
+
+  return [value, setValue]
+}
+
 function App(props) {
 
-  const [breed, setBreed] = useState('husky');
+  const [breed, setBreed] = useInput('husky');
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -41,31 +47,5 @@ function App(props) {
     </div>
   )
 }
-
-// class App extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       breed: 'husky',
-//       images: []
-//     }
-//   }
-
-//   componentDidMount() {
-//     this.fetchDogImages()
-//   }
-
-//   componentDidUpdate(prevProps, prevState) {
-//     if (prevState.breed !== this.state.breed) {
-      
-      
-//     }
-    
-//   }
-
-  
-
-  
-// }
 
 export default App;
